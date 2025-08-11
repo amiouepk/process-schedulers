@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <time.h>
 
 int psuedo_random();
 
@@ -25,15 +26,16 @@ int main(int argc, char** argv) {
             printf("help\n");
             break;
         case 'p':
-            printf("p?\n");
+            //printf("p?\n");
+            psuedo_random();
             break;
         default:
             printf("default case\n");
 
     }
 
+    
 
-    //getopt_long();
 
     
 
@@ -43,3 +45,24 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+
+
+int psuedo_random() {
+
+
+
+
+
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
