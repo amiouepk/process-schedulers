@@ -4,6 +4,8 @@ CFLAGS = -Wall -g -Wextra
 ticket:
 	$(CC) $(CLFAGS) ticket.c -o ticket
 
+my_process.o:
+
 test:
 	$(CC) $(CFLAGS) test.c -o test
 
