@@ -81,7 +81,7 @@ int psuedo_random() {
             rand_num = (rand_num / 10) + 1;
         } while (rand_num > ticket_num);
         
-        lottery(num_proc, ticket_num, );
+        ticket_filter(num_proc, ticket_num, proc_tickets);
     }
 
     printf("generated random number: %i\n", rand_num);
