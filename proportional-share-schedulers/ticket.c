@@ -7,15 +7,20 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <errno.h>
-#include "my_process.h"
+//#include "my_process.h"
 //#include <linux/time.h>
 
 // #define _POSIX_C_SOURCE 200809L
 
-
+struct process {
+    int proc_num;
+    int alloc_tickets;
+    int* range;
+};
 
 int psuedo_random();
-int ticket_filter(struct process* proc_arr, int num_proc, int ticket_num, int** ranges);
+//void range_assign(struct process* proc_arr, int num_proc, int ticket_num);
+void ticket_draw(struct process* proc_arr, int num_proc, int ticket_num);
 struct process* process_create(int num_proc, int* proc_tickets);
 
 /* Main function will take care of console input and processing using *getopt*
@@ -67,9 +72,9 @@ int psuedo_random() {
     int draw_num = 0; // number of times the tickets are drawn
 
     struct process* proc_arr = process_create(num_proc, proc_tickets);
-    int** ranges = malloc(num_proc * sizeof(int*));
+    //int** ranges = malloc(num_proc * sizeof(int*));
 
-    ticket_filter(proc_arr, num_proc, ticket_num, ranges);
+    //range_assign(proc_arr, num_proc, ticket_num);
 
     while (draw_num < sim_length){   
 
@@ -98,44 +103,55 @@ int psuedo_random() {
     return 0;
 }
 
-int ticket_filter(struct process* proc_arr, int num_proc, int ticket_num, int** ranges) {
+// void range_assign(struct process* proc_arr, int num_proc, int ticket_num) {
     
-    
-    int prev_alloc = 0;
+//     int prev_alloc = 0;
 
-    for (int i = 0; i < num_proc; i++){
-        ranges[i] = malloc(2 * sizeof(int));
+//     for (int i = 0; i < num_proc; i++){
+//         ranges[i] = malloc(2 * sizeof(int));
 
-        ranges[i][0] = prev_alloc + 1;
-        ranges[i][1] = prev_alloc + proc_arr[i].alloc_tickets;
+//         ranges[i][0] = prev_alloc + 1;
+//         ranges[i][1] = prev_alloc + proc_arr[i].alloc_tickets;
 
-        printf("low: %d, high: %d\n", ranges[i][0], ranges[i][1]);  
+//         printf("low: %d, high: %d\n", ranges[i][0], ranges[i][1]);  
 
-        prev_alloc = proc_arr[i].alloc_tickets;
-    }
+//         prev_alloc = proc_arr[i].alloc_tickets;
+//     }
 
-
-
-
-
-
-}
+// }
 
 
 struct process* process_create(int num_proc, int* proc_tickets){
 
     struct process* proc_arr = malloc(num_proc * sizeof(struct process));
+
+    int prev_alloc = 0;
     
     for (int i = 0; i < num_proc; i++){
         proc_arr[i].proc_num = i;
         proc_arr[i].alloc_tickets = proc_tickets[i];
+        proc_arr[i].range = malloc(2 * sizeof(int));
+
+        proc_arr->range[0] = prev_alloc + 1;
+        proc_arr->range[1] = prev_alloc + proc_arr[i].alloc_tickets;
+
+        printf("low: %d, high: %d\n", proc_arr->range[0], proc_arr->range[1]);  
+
+        prev_alloc = proc_arr[i].alloc_tickets;
+
     }
 
     return proc_arr;
 
 }
 
+void ticket_draw(struct process* proc_arr, int num_proc, int ticket_num){
 
+
+
+
+
+}
 
 
 
