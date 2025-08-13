@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 int psuedo_random() {
 
     int ticket_num = 100; // needs to be variable
-    int sim_length = 100; // needs to be variable
+    int sim_length = 1000; // needs to be variable
     int num_proc = 2; // needs to be variable
     int* proc_tickets = malloc(num_proc * sizeof(int)); // needs to be variable
     proc_tickets[0] = 25; // needs to be variable
@@ -73,14 +73,13 @@ int psuedo_random() {
 
     struct timespec tp;
     int cgt_err;
-
     int rand_num;
     int draw_num = 0; // number of times the tickets are drawn
 
     struct process* proc_arr = process_create(num_proc, proc_tickets);
     struct intarray run_order;
-    run_order.array = malloc(ticket_num * sizeof(int));
-    run_order.size = ticket_num;
+    run_order.array = malloc(sim_length * sizeof(int));
+    run_order.size = sim_length;
     int* rn_arr = malloc(run_order.size * sizeof(int));
 
 
@@ -94,7 +93,7 @@ int psuedo_random() {
             exit(EXIT_FAILURE);
         }
 
-        unsigned int seed = (tp.tv_sec >> 2) + (tp.tv_nsec >> 2);
+        unsigned int seed = tp.tv_sec + tp.tv_nsec;
         srandom(seed);
         //printf("seed: %i\n", seed);
  
@@ -109,6 +108,8 @@ int psuedo_random() {
 
         draw_num++;
     }
+
+    printf("\n");
 
     process_print(proc_arr, num_proc, &run_order, rn_arr);
 
@@ -137,7 +138,7 @@ struct process* process_create(int num_proc, int* proc_tickets){
         proc_arr[i].range[0] = prev_alloc + 1;
         proc_arr[i].range[1] = prev_alloc + proc_arr[i].alloc_tickets;
 
-        printf("low: %d, high: %d\n", proc_arr[i].range[0], proc_arr[i].range[1]);  
+        printf("process %i\nlow: %d, high: %d\n", i, proc_arr[i].range[0], proc_arr[i].range[1]);  
 
         prev_alloc = proc_arr[i].alloc_tickets;
 
